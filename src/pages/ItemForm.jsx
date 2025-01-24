@@ -26,6 +26,7 @@ const ItemForm = ({ handleItemAdded }) => {
       alert("Please fill in all fields");
       return;
     }
+
     const newPrice = parseFloat(price);
     if (isNaN(newPrice) || newPrice <= 0) {
       alert("Price must be a positive number");
@@ -33,7 +34,12 @@ const ItemForm = ({ handleItemAdded }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/items", {
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:5000"
+          : import.meta.env.VITE_API_URL;
+
+      const response = await axios.post(`${apiUrl}/api/items`, {
         title,
         description,
         price: newPrice,
