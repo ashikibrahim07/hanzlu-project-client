@@ -17,7 +17,12 @@ function App() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/items");
+        const apiUrl =
+          window.location.hostname === "localhost"
+            ? "http://localhost:5000"
+            : import.meta.env.VITE_API_URL;
+
+        const response = await axios.get(`${apiUrl}/api/items`);
         setItems(response.data);
       } catch (error) {
         console.error("Error fetching items:", error);
